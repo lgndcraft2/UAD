@@ -30,7 +30,7 @@ const TranscriptPopover = ({ interaction, onClose }) => {
         </div> */}
 
         <div className="p-4 overflow-y-auto flex-1">
-          <p className="text-sm text-gray-700 whitespace-pre-wrap">{interaction.transcript}</p>
+          <p className="text-sm text-gray-700 whitespace-pre-wrap">{interaction.transcript_link}</p>
         </div>
       </div>
     </div>

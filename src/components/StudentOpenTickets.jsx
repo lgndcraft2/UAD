@@ -14,7 +14,7 @@ const StudentOpenTickets = ({ tickets }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <FileText size={16} className="text-gray-600" />
-                <span className="font-medium text-gray-900">{ticket.title}</span>
+                <span className="font-medium text-gray-900">{ticket.title ? ticket.title : "awnn"}</span>
               </div>
               <span className={`text-xs px-2 py-1 rounded-full font-semibold ${
                 ticket.priority === 'high' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700'
@@ -22,7 +22,7 @@ const StudentOpenTickets = ({ tickets }) => {
                 {ticket.priority.toUpperCase()}
               </span>
             </div>
-            <p className="text-sm text-gray-600 mt-1">{ticket.description}</p>
+            <p className="text-sm text-gray-600 mt-1">{ticket.description ? ticket.description : "omo"}</p>
           </div>
         ))}
       </div>

@@ -1,14 +1,8 @@
 import { useState, useEffect} from 'react';
-import Navbar from './Navbar.jsx';
-import TaskQueue from './TaskQueue.jsx';
-import StudentFocusPanel from './StudentFocusPanel.jsx';
-
 import {db} from '../firebaseConfig.js';
 import { collection, getDocs, getDoc, doc, query, where } from 'firebase/firestore';
 
-import '../App.css';
-
-const UADLayout = () => {
+const TestComponent = () => {
   const [students, setStudents] = useState([]);
   const studentCollectionRef = collection(db, 'inquiry_tickets');
     useEffect(() => {
@@ -90,51 +84,18 @@ const UADLayout = () => {
         fetchStudents();
     }, []);
 
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-
   return (
-    <div className="h-screen flex flex-col">
-      <div className='sticky top-0 z-30'>
-        <Navbar isSidebarOpen={isSideBarOpen}
-          onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} />
-      </div>
-      <div className="flex flex-1 overflow-hidden">
-        <div className={`
-          fixed inset-y-0 left-0 z-20 w-80 lg:w-96
-          bg-gray-50 border-r border-gray-200
-          transform transition-transform duration-300 ease-in-out
-          ${isSideBarOpen ? 'translate-x-0' : '-translate-x-full'}
-          md:static md:translate-x-0 md:shrink-0 flex flex-col
-          pt-16 md:pt-0
-        `}>
-          <div className="flex-1 overflow-y-auto">
-            <TaskQueue
-              tasks={students}
-              selectedStudent={selectedStudent}
-              onSelectStudent= {(student) => {
-                setSelectedStudent(student);
-                setIsSideBarOpen(false);
-              }}
-            />
-          </div>
-        </div>
-        
-        {/* --- MOBILE OVERLAY (dimmer) --- */}
-        {isSideBarOpen && (
-          <div 
-            onClick={() => setIsSideBarOpen(false)}
-            className="md:hidden fixed inset-0 bg-black/50 z-10"
-          ></div>
-        )}
-        
-        {/* --- MAIN CONTENT (StudentFocusPanel) --- */}
-        <div className="flex-1 overflow-hidden">
-          <StudentFocusPanel student={selectedStudent} />
-        </div>
-      </div>
+    <div>
+      <h2>Test Component - Inquiry Tickets</h2>
+      <ul>
+        {students.map((student, index) => (
+          <li key={index}>
+            <strong>{student.status}</strong> - {student.priority} (Channel: {student.channel})
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
-
-export default UADLayout;
+export default TestComponent;
+            

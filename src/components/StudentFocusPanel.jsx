@@ -15,9 +15,9 @@ const StudentFocusPanel = ({ student }) => {
     <div className="h-full overflow-y-auto bg-gray-50 p-6">
       <div className="max-w-5xl mx-auto space-y-6">
         <StudentSummaryCard student={student} />
-        <InteractionTimeline interactions={student.interactions} />
-        <AIAssessmentPanel assessment={student.aiAssessment} />
-        <StudentOpenTickets tickets={student.openTickets} />
+        <InteractionTimeline interactions={student.advisorySessions} />
+        {/* <AIAssessmentPanel assessment={student.aiAssessment} /> */}
+        <StudentOpenTickets tickets={student.tickets} />
       </div>
     </div>
   );

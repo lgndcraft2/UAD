@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { LogOut, ChevronDown } from 'lucide-react';
+import { LogOut, ChevronDown, Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({isSidebarOpen, onToggleSidebar}) => {
   const [showDropdown, setShowDropdown] = useState(false);
-
   //because I currently no get db access
   const advisorName = "Some User";
   const advisorInitials = "SU";
@@ -13,14 +12,21 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white border-b border-gray-200 shadow-sm">
+    <nav className="bg-white border-b border-gray-200 shadow-sm z-30">
       <div className="flex items-center justify-between px-6 py-3">
         {/* Left Section */}
         <div className="flex items-center space-x-4">
+          {/* --- HAMBURGER TOGGLE (Mobile Only) --- */}
+          <button
+            onClick={onToggleSidebar}
+            className="md:hidden p-2 text-gray-600 hover:text-gray-900"
+          >
+            { isSidebarOpen ? <X size={24} /> : <Menu size={24} /> }
+          </button>
+          {/* -------------------------------------- */}
           <div className="flex items-center space-x-3">
             <div>
               <div className="text-sm font-semibold text-gray-600">Catalyst System</div>
-              <div className="text-lg font-bold text-gray-900">Unified Agent Desktop</div>
             </div>
           </div>
         </div>
@@ -36,7 +42,7 @@ const Navbar = () => {
               <div className="w-9 h-9 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
                 {advisorInitials}
               </div>
-              <span className="font-medium">{advisorName}</span>
+              <span className="font-medium hidden md:block">{advisorName}</span>
               <ChevronDown 
                 size={16} 
                 className={`transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
@@ -46,6 +52,13 @@ const Navbar = () => {
             {/* Dropdown Menu */}
             {showDropdown && (
               <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl overflow-hidden z-50">
+                <div className="py-1">
+                  <button
+                    className="w-full flex items-center space-x-2 px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors duration-150"
+                  >
+                    <span className="font-medium md:hidden">{advisorName}</span>
+                  </button>
+                </div>
                 <div className="py-1">
                   <button
                     onClick={handleLogout}
