@@ -58,10 +58,16 @@ const UADLayout = () => {
                             );
 
                             const advisorySessionSnaps = await getDocs(advisoryQuery);
-                            advisorySessionData = advisorySessionSnaps.docs.map((doc) => ({
+                            if (advisorySessionSnaps.empty) {
+                              advisorySessionData = [];
+                            }
+                            else{ 
+                              advisorySessionData = advisorySessionSnaps.docs.map((doc) => ({
                                 id: doc.id,
                                 ...doc.data(),
                                 }));
+                            }
+                            
 
                             const ticketSessionSnaps = await getDocs(ticketQuery);
                             ticketDataList = ticketSessionSnaps.docs.map((doc) => ({

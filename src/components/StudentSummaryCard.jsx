@@ -4,12 +4,12 @@ import '../App.css';
 const StudentSummaryCard = ({ student }) => {
   return (
     <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg p-6 shadow-lg">
+      {/* <p className="text-blue-100 font-semilight">ID: {student.student_id}</p> */}
       <div className="flex items-start justify-between">
         <div>
-          <h2 className="text-2xl font-bold">{student.student.fullName}</h2>
-          <p className="text-blue-100 mt-1">ID: {student.student_id}</p>
+          <h2 className="text-2xl font-semibold">{student.student.fullName}</h2>
         </div>
-        <div className="bg-black bg-opacity-20 px-3 w-20 rounded-[20px] py-1 flex justify-center">
+        <div className="bg-black bg-opacity-20 px-2 w-20 rounded-[20px] py-1 flex justify-center">
           <span className="font-semibold text-center">TIER {student.student.tier}</span>
         </div>
       </div>
