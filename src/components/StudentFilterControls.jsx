@@ -36,7 +36,7 @@ const StudentFilterControls = ({ filters, onFilterChange, onReset }) => {
         </div>
 
         {/* Enrollment Status Filter */}
-        <div>
+        {/* <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Enrollment Status
           </label>
@@ -51,7 +51,7 @@ const StudentFilterControls = ({ filters, onFilterChange, onReset }) => {
             <option value="Active">Active</option>
             <option value="Graduated">Graduated</option>
           </select>
-        </div>
+        </div> */}
 
         {/* Lead Score Filter */}
         <div>
