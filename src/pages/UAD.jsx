@@ -1,7 +1,7 @@
 import { useState, useEffect} from 'react';
-import Navbar from './Navbar.jsx';
-import TaskQueue from './TaskQueue.jsx';
-import StudentFocusPanel from './StudentFocusPanel.jsx';
+import Navbar from '../components/Navbar.jsx';
+import TaskQueue from '../components/TaskQueue.jsx';
+import StudentFocusPanel from '../components/StudentFocusPanel.jsx';
 
 import {db} from '../firebaseConfig.js';
 import { collection, getDocs, getDoc, doc, query, where } from 'firebase/firestore';
@@ -100,11 +100,10 @@ const UADLayout = () => {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
 
   return (
-    <div className="h-screen flex flex-col">
-      <div className='sticky top-0 z-30'>
-        <Navbar isSidebarOpen={isSideBarOpen}
-          onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} />
-      </div>
+      // <div className='sticky top-0 z-30'>
+      //   {/* <Navbar isSidebarOpen={isSideBarOpen}
+      //     onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} /> */}
+      // </div>
       <div className="flex flex-1 overflow-hidden">
         <div className={`
           fixed inset-y-0 left-0 z-20 w-80 lg:w-96
@@ -139,7 +138,6 @@ const UADLayout = () => {
           <StudentFocusPanel student={selectedStudent} />
         </div>
       </div>
-    </div>
   );
 };
 

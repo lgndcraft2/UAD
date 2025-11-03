@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import { LogOut, ChevronDown, Menu, X } from 'lucide-react';
 
-const Navbar = ({isSidebarOpen, onToggleSidebar}) => {
+const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   //because I currently no get db access
   const advisorName = "Some User";
@@ -17,12 +18,12 @@ const Navbar = ({isSidebarOpen, onToggleSidebar}) => {
         {/* Left Section */}
         <div className="flex items-center space-x-4">
           {/* --- HAMBURGER TOGGLE (Mobile Only) --- */}
-          <button
+          {/* <button
             onClick={onToggleSidebar}
             className="md:hidden p-2 text-gray-600 hover:text-gray-900"
           >
             { isSidebarOpen ? <X size={24} /> : <Menu size={24} /> }
-          </button>
+          </button> */}
           {/* -------------------------------------- */}
           <div className="flex items-center space-x-3">
             <div>
@@ -30,7 +31,29 @@ const Navbar = ({isSidebarOpen, onToggleSidebar}) => {
             </div>
           </div>
         </div>
-
+        {/* Center Section - Links */}
+        <div className="flex items-center space-x-6">
+          <NavLink
+            to="/"
+            className={({ isActive}) => {
+              return(
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+              );
+            }}
+          >
+            Tickets
+          </NavLink>
+          <NavLink
+            to="/students"
+            className={({ isActive}) => {
+              return(
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+              );
+            }}
+          >
+            Students
+          </NavLink>
+        </div>
         {/* Right Section - Advisor Profile */}
         <div className="flex items-center space-x-4">
           <div className="relative">
