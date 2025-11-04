@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import StudentSearchBar from './StudentSearchBar.jsx';
 import StudentFilterControls from './StudentFilterControls.jsx';
 import StudentTable from './StudentTable.jsx';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig.js';
+import StudentDetailPage from './StudentDetails.jsx';
 
 const StudentListPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,111 +19,31 @@ const StudentListPage = () => {
   });
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const studentCollectionRef = collection(db, 'students');
   // Simulated data fetch - Replace with actual Firestore fetch
   useEffect(() => {
     const fetchStudents = async () => {
-      // Mock student data matching Firestore schema
-      const mockStudents = [
-        {
-          student_id: 'kV4sSGNv31Mtkv0LR0uBqh6q11s1',
-          fullName: 'Kenny Giwa',
-          email: 'madile@mail.com',
-          phoneNumber: '2348445467678',
-          age: '18-24',
-          country: 'Nigeria',
-          tier: 1,
-          leadScore: 20,
-          enrollmentStatus: 'Lead',
-          hasOnboarded: true,
-          createdAt: new Date('2025-10-28'),
-          lastInteractionDate: new Date('2025-11-01'),
-          onboardingAnswers: {
-            achieve: 'career',
-            area: 'data',
-            availability: 'part-time',
-            occupation: 'Graduate',
-            learningStyle: 'reading',
-            projectEnjoyed: 'games',
-            comfortRating: '2',
-            haveTakenTechCourses: 'no',
-            preferredChannel: 'email'
-          }
-        },
-        {
-          student_id: 'STUDENT-002',
-          fullName: 'Emma Davis',
-          email: 'emma.davis@email.com',
-          phoneNumber: '2348445467679',
-          age: '25-34',
-          country: 'Ghana',
-          tier: 2,
-          leadScore: 85,
-          enrollmentStatus: 'Active',
-          hasOnboarded: true,
-          createdAt: new Date('2025-10-15'),
-          lastInteractionDate: new Date('2025-11-02')
-        },
-        {
-          student_id: 'STUDENT-003',
-          fullName: 'Michael Chen',
-          email: 'michael.chen@email.com',
-          phoneNumber: '2348445467680',
-          age: '18-24',
-          country: 'Nigeria',
-          tier: 3,
-          leadScore: 65,
-          enrollmentStatus: 'Prospective',
-          hasOnboarded: false,
-          createdAt: new Date('2025-09-20'),
-          lastInteractionDate: new Date('2025-10-28')
-        },
-        {
-          student_id: 'STUDENT-004',
-          fullName: 'Sarah Williams',
-          email: 'sarah.williams@email.com',
-          phoneNumber: '2348445467681',
-          age: '35-44',
-          country: 'Kenya',
-          tier: 1,
-          leadScore: 92,
-          enrollmentStatus: 'Active',
-          hasOnboarded: true,
-          createdAt: new Date('2025-08-10'),
-          lastInteractionDate: new Date('2025-11-03')
-        },
-        {
-          student_id: 'STUDENT-005',
-          fullName: 'John Smith',
-          email: 'john.smith@email.com',
-          phoneNumber: '2348445467682',
-          age: '25-34',
-          country: 'Nigeria',
-          tier: 2,
-          leadScore: 45,
-          enrollmentStatus: 'Lead',
-          hasOnboarded: true,
-          createdAt: new Date('2025-10-01'),
-          lastInteractionDate: new Date('2025-10-30')
-        },
-        {
-          student_id: 'STUDENT-006',
-          fullName: 'Amara Okafor',
-          email: 'amara.okafor@email.com',
-          phoneNumber: '2348445467683',
-          age: '18-24',
-          country: 'Nigeria',
-          tier: 1,
-          leadScore: 78,
-          enrollmentStatus: 'Prospective',
-          hasOnboarded: true,
-          createdAt: new Date('2025-10-20'),
-          lastInteractionDate: new Date('2025-11-02')
+      try{
+        setLoading(true);
+        const data = await getDocs(studentCollectionRef);
+        if (data.empty){
+            console.log("No data Found")
+            setStudents([]);
+            return
         }
-      ];
-
-      setStudents(mockStudents);
-      setLoading(false);
+        const studentsList = data.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }));
+        console.log("Fetched students", studentsList);
+        setStudents(studentsList);
+      } catch (error) {
+        console.error("Error fetching students:", error);
+        setLoading(false);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchStudents();
@@ -146,9 +69,9 @@ const StudentListPage = () => {
     }
 
     // Enrollment status filter
-    if (filters.enrollmentStatus) {
-      filtered = filtered.filter(student => student.enrollmentStatus === filters.enrollmentStatus);
-    }
+    // if (filters.enrollmentStatus) {
+    //   filtered = filtered.filter(student => student.enrollmentStatus === filters.enrollmentStatus);
+    // }
 
     // Lead score filter
     if (filters.leadScore) {
@@ -219,13 +142,20 @@ const StudentListPage = () => {
   };
 
   const handleStudentClick = (student) => {
-    // In production: navigate to student detail page
-    console.log('Navigate to student:', student.student_id);
-    alert(`Opening profile for: ${student.fullName}\n\nIn production, this would navigate to the student's detailed profile page.`);
+    setSelectedStudent(student);
   };
+
+  const handleBackToList = () => {
+    setSelectedStudent(null);
+};
 
   const filteredStudents = getFilteredStudents();
   const displayStudents = getSortedStudents(filteredStudents);
+
+
+  if (selectedStudent) {
+    return <StudentDetailPage student={selectedStudent} onBack={handleBackToList} />;
+    }
 
   if (loading) {
     return (

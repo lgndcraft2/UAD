@@ -8,24 +8,8 @@ const StudentHeader = ({ student, onBack }) => {
     return date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   };
 
-  const getTierBadgeColor = (tier) => {
-    const colors = {
-      1: 'bg-purple-500',
-      2: 'bg-blue-500',
-      3: 'bg-gray-500'
-    };
-    return colors[tier] || colors[3];
-  };
-
-  const getLeadScoreColor = (score) => {
-    if (score >= 80) return 'from-green-500 to-green-600';
-    if (score >= 60) return 'from-yellow-500 to-yellow-600';
-    if (score >= 40) return 'from-orange-500 to-orange-600';
-    return 'from-red-500 to-red-600';
-  };
-
   return (
-    <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+    <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-t-lg">
       <div className="max-w-7xl mx-auto px-6 py-6">
         <button
           onClick={onBack}
@@ -37,7 +21,7 @@ const StudentHeader = ({ student, onBack }) => {
 
         <div className="flex items-start justify-between">
           <div className="flex items-start space-x-4">
-            <div className="w-20 h-20 bg-white bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold">
+            <div className="w-20 h-20 bg-black bg-opacity-20 rounded-full flex items-center justify-center text-3xl font-bold">
               {student.fullName?.charAt(0) || 'U'}
             </div>
             <div>
@@ -67,10 +51,10 @@ const StudentHeader = ({ student, onBack }) => {
 
           <div className="flex items-center space-x-3">
             <div className="text-right">
-              <div className={`inline-flex items-center px-4 py-2 rounded-full ${getTierBadgeColor(student.tier)} text-white font-semibold mb-2`}>
+              <div className={`inline-flex bg-black items-center px-4 py-2 rounded-full text-white font-semibold mb-2`}>
                 Tier {student.tier}
               </div>
-              <div className={`bg-gradient-to-r ${getLeadScoreColor(student.leadScore)} px-4 py-2 rounded-lg text-center`}>
+              <div className={`px-4 py-2 rounded-lg text-center`}>
                 <div className="text-sm opacity-90">Lead Score</div>
                 <div className="text-2xl font-bold">{student.leadScore}/100</div>
               </div>

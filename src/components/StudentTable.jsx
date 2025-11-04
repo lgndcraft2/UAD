@@ -10,7 +10,7 @@ const StudentTable = ({ students, onStudentClick, sortConfig, onSort }) => {
     return sortConfig.direction === 'asc' 
       ? <ChevronUp size={14} className="text-blue-600" />
       : <ChevronDown size={14} className="text-blue-600" />;
-  };
+  };  
 
   const SortableHeader = ({ columnKey, children }) => (
     <th
@@ -51,7 +51,7 @@ const StudentTable = ({ students, onStudentClick, sortConfig, onSort }) => {
           <tbody className="bg-white divide-y divide-gray-200">
             {students.map((student) => (
               <StudentTableRow
-                key={student.student_id}
+                key={student.id}
                 student={student}
                 onClick={() => onStudentClick(student)}
               />

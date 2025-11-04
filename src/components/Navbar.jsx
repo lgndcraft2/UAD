@@ -27,7 +27,7 @@ const Navbar = () => {
           {/* -------------------------------------- */}
           <div className="flex items-center space-x-3">
             <div>
-              <div className="text-sm font-semibold text-gray-600">Catalyst System</div>
+              <div className="text-sm font-semibold hidden md:block text-gray-600">Catalyst System</div>
             </div>
           </div>
         </div>

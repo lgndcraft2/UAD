@@ -14,6 +14,7 @@ const UADLayout = () => {
     useEffect(() => {
         const fetchStudents = async () => {
             try{
+              setIsLoading(true);
                 const data = await getDocs(studentCollectionRef);
                 if (data.empty) {
                     console.log("No inquiry tickets found.");
@@ -91,6 +92,8 @@ const UADLayout = () => {
             setStudents(inquiries);
             }catch (err){
                 console.error("Error fetching students: ", err);
+            } finally {
+                setIsLoading(false);
             }
         };
         fetchStudents();
@@ -98,6 +101,18 @@ const UADLayout = () => {
 
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  if (isLoading) {
+    return (
+      <div className="h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading Inquiry Tickets...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
       // <div className='sticky top-0 z-30'>
