@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { LogOut, ChevronDown, Menu, X } from 'lucide-react';
 
-const Navbar = () => {
+const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   //because I currently no get db access
   const advisorName = "Some User";
   const advisorInitials = "SU";
+
+  const location = useLocation();
+  const isTicketsPage = location.pathname === '/';
 
   const handleLogout = () => {
     alert('Logout functionality would be fixed.... eventually');
@@ -18,12 +21,14 @@ const Navbar = () => {
         {/* Left Section */}
         <div className="flex items-center space-x-4">
           {/* --- HAMBURGER TOGGLE (Mobile Only) --- */}
-          {/* <button
-            onClick={onToggleSidebar}
-            className="md:hidden p-2 text-gray-600 hover:text-gray-900"
-          >
-            { isSidebarOpen ? <X size={24} /> : <Menu size={24} /> }
-          </button> */}
+          {isTicketsPage && (
+            <button
+              onClick={onToggleSidebar}
+              className="md:hidden p-2 text-gray-600 hover:text-gray-900"
+            >
+              { isSidebarOpen ? <X size={24} /> : <Menu size={24} /> }
+            </button>
+          ) }
           {/* -------------------------------------- */}
           <div className="flex items-center space-x-3">
             <div>
@@ -34,10 +39,11 @@ const Navbar = () => {
         {/* Center Section - Links */}
         <div className="flex items-center space-x-6">
           <NavLink
-            to="/"
+            to="/tickets"
             className={({ isActive}) => {
               return(
-                isActive ? 'text-blue-600 font-medium transition-colors duration-200' : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
+                : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
               );
             }}
           >
@@ -47,11 +53,23 @@ const Navbar = () => {
             to="/students"
             className={({ isActive}) => {
               return(
-                isActive ? 'text-blue-600 font-medium transition-colors duration-200' : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
+                : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
               );
             }}
           >
             Students
+          </NavLink>
+          <NavLink
+            to="/"
+            className={({ isActive}) => {
+              return(
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
+                : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+              );
+            }}
+          >
+            Dashboard
           </NavLink>
         </div>
         {/* Right Section - Advisor Profile */}

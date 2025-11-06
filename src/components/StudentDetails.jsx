@@ -3,6 +3,8 @@ import CRMStudentHeader from './StudentHeader.jsx';
 import CRMMetrics from './Metrics.jsx';
 import StudentProfileOverview from './StudentProfileOverview.jsx';
 import AIReportCRMView from './Report.jsx';
+import PrevTechCourses from './PrevTechCourses.jsx';
+import Inquiries from './Inquiries.jsx';
 
 const StudentDetailPage = ({ student: propStudent, onBack: propOnBack }) => {
   useEffect(
@@ -84,7 +86,12 @@ const StudentDetailPage = ({ student: propStudent, onBack: propOnBack }) => {
             />
             {/* <AdvisorNotes /> */}
           </div>
-          
+          <div className="space-y-6">
+            <Inquiries inquiries={student.inquiries} />
+          </div>
+          <div className="space-y-6">
+            <PrevTechCourses student={student} />
+          </div>
           <div>
             <AIReportCRMView reportText={student.reportText} />
           </div>

@@ -34,6 +34,24 @@ const AIAssessmentPanel = ({ assessment }) => {
           <p className="text-purple-800 text-sm">{assessment.rationale}</p>
         </div>
       </div>
+      <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200 p-4">
+        <div className="flex items-start space-x-2 mb-3">
+          <Sparkles size={20} className="text-green-600 mt-0.5" />
+          <h3 className="text-sm font-bold text-green-900">Welcome Assessment</h3>
+        </div>
+        <p className="text-xs text-gray-700 leading-relaxed">
+          {assessment.reportText.full_page_sections.welcome_summary}
+        </p>
+      </div>
+      <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-4">
+        <div className="flex items-start space-x-2 mb-3">
+          <BarChart3 size={20} className="text-blue-600 mt-0.5" />
+          <h3 className="text-sm font-bold text-blue-900">Reflection Analysis</h3>
+        </div>
+        <p className="text-xs text-gray-700 leading-relaxed">
+          {assessment.reportText.full_page_sections.reflection_analysis}
+        </p>
+      </div>
     </div>
   );
 };

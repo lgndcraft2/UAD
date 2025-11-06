@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import StudentSearchBar from './StudentSearchBar.jsx';
 import StudentFilterControls from './StudentFilterControls.jsx';
 import StudentTable from './StudentTable.jsx';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig.js';
 import StudentDetailPage from './StudentDetails.jsx';
 
@@ -32,12 +32,33 @@ const StudentListPage = () => {
             setStudents([]);
             return
         }
-        const studentsList = data.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-        }));
-        console.log("Fetched students", studentsList);
-        setStudents(studentsList);
+        const student = await Promise.all(
+          data.docs.map(async (document) => {
+            const studentData = document.data();
+            const inquiryQuery = query(
+              collection(db, 'inquiry_tickets'),
+              where('student_id', '==', document.id)
+            );
+
+            const inquirySnapshot = await getDocs(inquiryQuery);
+            const inquiries = inquirySnapshot.docs.map((doc) => ({
+              id: doc.id, 
+              ...doc.data()
+            }));
+            return {
+              id: document.id,
+              ...studentData,
+              lastInteractionDate: inquiries.length > 0 ? inquiries.reduce((latest, inquiry) => {
+                const inquiryDate = inquiry.lastInteraction ? (inquiry.lastInteraction.toDate ? inquiry.lastInteraction.toDate() : new Date(inquiry.lastInteraction)) : null;
+                return (!latest || (inquiryDate && inquiryDate > latest)) ? inquiryDate : latest;
+              }
+              , null) : null,
+              inquiries
+            };
+          })
+        );
+        console.log("Fetched inquiries with last interaction dates:", student);
+        setStudents(student);
       } catch (error) {
         console.error("Error fetching students:", error);
         setLoading(false);
@@ -67,11 +88,6 @@ const StudentListPage = () => {
     if (filters.tier) {
       filtered = filtered.filter(student => student.tier === parseInt(filters.tier));
     }
-
-    // Enrollment status filter
-    // if (filters.enrollmentStatus) {
-    //   filtered = filtered.filter(student => student.enrollmentStatus === filters.enrollmentStatus);
-    // }
 
     // Lead score filter
     if (filters.leadScore) {

@@ -10,6 +10,9 @@ import '../App.css';
 
 const UADLayout = () => {
   const [students, setStudents] = useState([]);
+  const [selectedStudent, setSelectedStudent] = useState(null);
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const studentCollectionRef = collection(db, 'inquiry_tickets');
     useEffect(() => {
         const fetchStudents = async () => {
@@ -99,26 +102,29 @@ const UADLayout = () => {
         fetchStudents();
     }, []);
 
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading Inquiry Tickets...</p>
+      <div className="h-screen flex flex-col">
+        <div className='sticky top-0 z-30'>
+          <Navbar isSidebarOpen={isSideBarOpen}
+            onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} />
+        </div>
+        <div className="h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading Inquiry Tickets...</p>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-      // <div className='sticky top-0 z-30'>
-      //   {/* <Navbar isSidebarOpen={isSideBarOpen}
-      //     onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} /> */}
-      // </div>
+    <div className="h-screen flex flex-col">
+      <div className='sticky top-0 z-30'>
+        <Navbar isSidebarOpen={isSideBarOpen}
+          onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} />
+      </div>
       <div className="flex flex-1 overflow-hidden">
         <div className={`
           fixed inset-y-0 left-0 z-20 w-80 lg:w-96
@@ -153,6 +159,7 @@ const UADLayout = () => {
           <StudentFocusPanel student={selectedStudent} />
         </div>
       </div>
+    </div>
   );
 };
 

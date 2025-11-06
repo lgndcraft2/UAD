@@ -33,7 +33,7 @@ const StudentHeader = ({ student, onBack }) => {
                 </div>
                 <div className="flex items-center space-x-1">
                   <Phone size={16} />
-                  <span>{student.phoneNumber}</span>
+                  <span>+{student.phoneNumber}</span>
                 </div>
               </div>
               <div className="flex items-center space-x-4 mt-2 text-blue-100">

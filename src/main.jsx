@@ -6,18 +6,12 @@ import App from './App.jsx'
 import UADLayout from './pages/UAD.jsx'
 import Students from './pages/Students.jsx'
 import Navbar from './components/Navbar.jsx'
+import Dashboard from './pages/Dashboard.jsx'
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: (
-      <div className="h-screen flex flex-col">
-        <div className='sticky top-0 z-30'>
-          <Navbar/>
-        </div>
-          <UADLayout/>
-      </div>
-    )
+    path: '/tickets',
+    element: <UADLayout/>,
   },
   {
     path: '/students',
@@ -29,7 +23,18 @@ const router = createBrowserRouter([
           <Students/>
       </div>
     )
-  }
+  },
+  {
+    path: '/',
+    element: (
+    <div className="h-screen flex flex-col">
+        <div className='sticky top-0 z-30'>
+          <Navbar/>
+        </div>
+          <Dashboard/>
+      </div>
+    )
+  },
 ]);
 
 createRoot(document.getElementById('root')).render(

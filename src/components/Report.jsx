@@ -1,11 +1,11 @@
 import React from 'react';
-import { Award, Target, CheckCircle } from 'lucide-react';
+import { Award, Target, CheckCircle, Sparkles, BarChart3 } from 'lucide-react';
 
 
 const AIReportCRMView = ({ reportText }) => {
   if (!reportText || !reportText.snapshot_data) return null;
 
-  const { snapshot_data, report_type, viral_cta, compliance_info } = reportText;
+  const { snapshot_data, report_type, viral_cta, compliance_info, full_page_sections } = reportText;
 
   return (
     <div className="bg-white rounded-lg border border-gray-200">
@@ -15,14 +15,12 @@ const AIReportCRMView = ({ reportText }) => {
             <h2 className="text-lg font-bold text-gray-900">AI-Generated Report</h2>
             <p className="text-sm text-gray-600 mt-1">{report_type}</p>
           </div>
-          <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            View Full Report
-          </button>
         </div>
       </div>
 
       <div className="p-6 space-y-4">
         {/* Assessment Summary */}
+        {snapshot_data && (
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <div className="flex items-start space-x-3">
             <Award size={20} className="text-blue-600 mt-0.5" />
@@ -32,8 +30,10 @@ const AIReportCRMView = ({ reportText }) => {
             </div>
           </div>
         </div>
+        )}
 
         {/* Recommended Path */}
+        {snapshot_data && (
         <div className="bg-green-50 p-4 rounded-lg border border-green-200">
           <div className="flex items-start space-x-3">
             <Target size={20} className="text-green-600 mt-0.5" />
@@ -44,12 +44,42 @@ const AIReportCRMView = ({ reportText }) => {
             </div>
           </div>
         </div>
+        )}
 
         {/* AI Rationale */}
+        {snapshot_data && (
         <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
           <p className="text-sm font-semibold text-yellow-900 mb-2">AI Recommendation Rationale</p>
           <p className="text-sm text-gray-700">{snapshot_data.match_justification}</p>
         </div>
+        )}
+
+        {/* Welcome Summary */}
+        {full_page_sections && (
+        <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border border-green-200 p-4">
+            <div className="flex items-start space-x-2 mb-3">
+            <Sparkles size={20} className="text-green-600 mt-0.5" />
+            <h3 className="text-sm font-bold text-green-900">Welcome Assessment</h3>
+            </div>
+            <p className="text-xs text-gray-700 leading-relaxed">
+            {full_page_sections.welcome_summary}
+            </p>
+        </div>
+        )}
+
+        {/* Reflection Analysis */}
+        {full_page_sections && (
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border border-blue-200 p-4">
+            <div className="flex items-start space-x-2 mb-3">
+            <BarChart3 size={20} className="text-blue-600 mt-0.5" />
+            <h3 className="text-sm font-bold text-blue-900">Reflection Analysis</h3>
+            </div>
+            <p className="text-xs text-gray-700 leading-relaxed">
+            {full_page_sections.reflection_analysis}
+            </p>
+        </div>
+        )}
+
 
         {/* CTA Preview */}
         {viral_cta && (
