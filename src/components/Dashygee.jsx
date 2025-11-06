@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Ticket, AlertCircle, TrendingUp, Award, Activity, Clock, CheckCircle, Target } from 'lucide-react';
 
-const CRMAnalyticsDashboard = () => {
+const DashyGee = () => {
   const [loading, setLoading] = useState(true);
   const [students, setStudents] = useState([]);
   const [tickets, setTickets] = useState([]);
@@ -540,4 +540,4 @@ const CRMAnalyticsDashboard = () => {
   );
 };
 
-export default CRMAnalyticsDashboard;
+export default DashyGee;

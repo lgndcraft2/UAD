@@ -1,5 +1,5 @@
 import React from "react";
-import DashyGee from "../components/DashyGee.jsx";
+import DashyGee from "../components/Dashygee";
 
 const Dashboard = () => {
   return (
