@@ -39,6 +39,17 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
         {/* Center Section - Links */}
         <div className="flex items-center space-x-6">
           <NavLink
+            to="/"
+            className={({ isActive}) => {
+              return(
+                isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
+                : 'text-gray-600 hover:text-gray-900 font-medium transition-colors duration-200'
+              );
+            }}
+          >
+            Dashboard
+          </NavLink>
+          <NavLink
             to="/tickets"
             className={({ isActive}) => {
               return(
@@ -61,7 +72,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
             Students
           </NavLink>
           <NavLink
-            to="/"
+            to="/sessions"
             className={({ isActive}) => {
               return(
                 isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
@@ -69,7 +80,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               );
             }}
           >
-            Dashboard
+            Sessions
           </NavLink>
         </div>
         {/* Right Section - Advisor Profile */}
@@ -80,7 +91,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               className="flex items-center space-x-3 bg-800 hover:bg-gray-100 rounded-lg px-4 py-2 transition-colors duration-200"
             >
               {/* Profile Picture */}
-              <div className="w-9 h-9 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
+              <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
                 {advisorInitials}
               </div>
               <span className="font-medium hidden md:block">{advisorName}</span>

@@ -7,6 +7,7 @@ import UADLayout from './pages/UAD.jsx'
 import Students from './pages/Students.jsx'
 import Navbar from './components/Navbar.jsx'
 import Dashboard from './pages/Dashboard.jsx'
+import AdvisorySessions from './pages/AdvisorySessions.jsx'
 
 const router = createBrowserRouter([
   {
@@ -35,6 +36,17 @@ const router = createBrowserRouter([
       </div>
     )
   },
+  {
+    path: '/sessions',
+    element: (
+      <div className="h-screen flex flex-col">
+        <div className='sticky top-0 z-30'>
+          <Navbar/>
+        </div>
+          <AdvisorySessions/>
+      </div>
+    )
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(
