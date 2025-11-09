@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { LogOut, ChevronDown, Menu, X } from 'lucide-react';
+import toast from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import { auth } from "../firebaseConfig.js";
+import { signOut} from "firebase/auth";
 
 const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   //because I currently no get db access
-  const advisorName = "Some User";
-  const advisorInitials = "SU";
+  const advisorName = auth.currentUser ? auth.currentUser.email : "Advisor User";
+  const advisorInitials = advisorName.split(' ').map(name => name[0]).join('').toUpperCase().slice(0, 2);
 
   const location = useLocation();
-  const isTicketsPage = location.pathname === '/';
+  const isTicketsPage = location.pathname === '/tickets';
 
-  const handleLogout = () => {
-    alert('Logout functionality would be fixed.... eventually');
+  const handleLogout = async () => {
+    try{
+      await signOut(auth);
+    }catch(error){
+      toast.error("Error logging out: " + error.message);
+    }finally{
+      toast.success("Logged out successfully!");
+    }
   };
 
   return (
@@ -39,7 +49,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
         {/* Center Section - Links */}
         <div className="flex items-center space-x-6">
           <NavLink
-            to="/"
+            to="/dashboard"
             className={({ isActive}) => {
               return(
                 isActive ? 'text-blue-600 font-medium transition-colors duration-200' 
@@ -125,6 +135,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
           </div>
         </div>
       </div>
+      <Toaster position="top-right" reverseOrder={false} />
     </nav>
   );
 };

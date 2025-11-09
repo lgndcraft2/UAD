@@ -156,6 +156,7 @@ const UADLayout = () => {
         
         {/* --- MAIN CONTENT (StudentFocusPanel) --- */}
         <div className="flex-1 overflow-hidden">
+        
           <StudentFocusPanel student={selectedStudent} />
         </div>
       </div>
