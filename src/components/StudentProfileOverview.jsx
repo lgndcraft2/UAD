@@ -24,7 +24,7 @@ const StudentProfileOverview = ({ onboardingAnswers }) => {
       </div>
 
       <div className="p-4">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
             <p className="text-xs text-blue-600 font-semibold mb-0.5">INTEREST</p>
             <p className="text-sm font-bold text-gray-900">{formatValue('area', onboardingAnswers.area.toUpperCase())}</p>
