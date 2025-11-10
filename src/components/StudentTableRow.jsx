@@ -32,9 +32,6 @@ const StudentTableRow = ({ student, onClick }) => {
       {/* Student Name */}
       <td className="px-6 py-4">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
-            {student.fullName?.charAt(0) || 'U'}
-          </div>
           <div>
             <div className="font-medium text-gray-900">{student.fullName || 'Unknown'}</div>
             <div className="text-sm text-gray-500">{student.student_id}</div>
