@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { LogOut, ChevronDown, Menu, X } from 'lucide-react';
+import { LogOut, ChevronDown, Menu, X, LayoutDashboardIcon, Ticket, FileUser, CalendarRange } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { Toaster } from 'react-hot-toast';
 import { auth } from "../firebaseConfig.js";
@@ -57,7 +57,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               );
             }}
           >
-            Dashboard
+            <span className="hidden md:block">Dashboard</span><span className='md:hidden'><LayoutDashboardIcon size={24} /></span>
           </NavLink>
           <NavLink
             to="/tickets"
@@ -68,7 +68,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               );
             }}
           >
-            Tickets
+            <span className="hidden md:block">Tickets</span><span className='md:hidden'><Ticket size={24} /></span>
           </NavLink>
           <NavLink
             to="/students"
@@ -79,7 +79,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               );
             }}
           >
-            Students
+            <span className="hidden md:block">Students</span><span className='md:hidden'><FileUser size={24} /></span>
           </NavLink>
           <NavLink
             to="/sessions"
@@ -90,7 +90,7 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
               );
             }}
           >
-            Sessions
+            <span className="hidden md:block">Sessions</span><span className='md:hidden'><CalendarRange size={24} /></span>
           </NavLink>
         </div>
         {/* Right Section - Advisor Profile */}
@@ -98,15 +98,15 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
           <div className="relative">
             <button
               onClick={() => setShowDropdown(!showDropdown)}
-              className="flex items-center space-x-3 bg-800 hover:bg-gray-100 rounded-lg px-4 py-2 transition-colors duration-200"
+              className="flex items-center space-x-3 bg-800 hover:bg-gray-100 rounded-lg px-2 py-1 md:px-4 md:py-2 transition-colors duration-200"
             >
               {/* Profile Picture */}
-              <div className="w-9 h-9 bg-black rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
+              <div className="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-md">
                 {advisorInitials}
               </div>
               <span className="font-medium hidden md:block">{advisorName}</span>
               <ChevronDown 
-                size={16} 
+                size={13} 
                 className={`transition-transform duration-200 ${showDropdown ? 'rotate-180' : ''}`}
               />
             </button>
