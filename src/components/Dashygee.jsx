@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../firebaseConfig.js';
 import { Users, Ticket, AlertCircle, TrendingUp, Award, Activity, Clock, CheckCircle, Target } from 'lucide-react';
 
 const DashyGee = () => {
@@ -6,141 +8,26 @@ const DashyGee = () => {
   const [students, setStudents] = useState([]);
   const [tickets, setTickets] = useState([]);
   const [sessions, setSessions] = useState([]);
-  const [analytics, setAnalytics] = useState({
-    totalStudents: 0,
-    totalTickets: 0,
-    highPriorityTickets: 0,
-    mediumPriorityTickets: 0,
-    lowPriorityTickets: 0,
-    openTickets: 0,
-    closedTickets: 0,
-    tier1Students: 0,
-    tier2Students: 0,
-    tier3Students: 0,
-    onboardedStudents: 0,
-    averageLeadScore: 0,
-    newStudentsThisWeek: 0,
-    escalatedSessions: 0
-  });
+  const [analytics, setAnalytics] = useState({});
+  const studentCollectionRef = collection(db, "students");
+  const ticketCollectionRef = collection(db, "inquiry_tickets");
 
   // Fetch data from Firestore - Replace with actual Firebase calls
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Mock data matching your Firestore structure
-        const mockStudents = [
-          {
-            student_id: 'MizsND2RlwhM6xWyXcvw3l8mRXn2',
-            fullName: 'Adeniji Fisayo',
-            email: '',
-            age: '18',
-            country: 'Nigeria',
-            tier: 3,
-            leadScore: 20,
-            hasOnboarded: true,
-            createdAt: { toDate: () => new Date('2025-11-01') },
-            reportGeneratedAt: { toDate: () => new Date('2025-11-03') }
-          },
-          {
-            student_id: 'kV4sSGNv31Mtkv0LR0uBqh6q11s1',
-            fullName: 'Kenny Giwa',
-            email: 'kennyhg@gmail.com',
-            age: '18-24',
-            country: 'Albania',
-            tier: 1,
-            leadScore: 20,
-            hasOnboarded: true,
-            createdAt: { toDate: () => new Date('2025-10-29') }
-          },
-          {
-            student_id: 'STUDENT-003',
-            fullName: 'Sarah Williams',
-            email: 'sarah@email.com',
-            age: '25-34',
-            country: 'Nigeria',
-            tier: 1,
-            leadScore: 92,
-            hasOnboarded: true,
-            createdAt: { toDate: () => new Date('2025-10-15') }
-          },
-          {
-            student_id: 'STUDENT-004',
-            fullName: 'Michael Chen',
-            email: 'michael@email.com',
-            age: '18-24',
-            country: 'Ghana',
-            tier: 2,
-            leadScore: 65,
-            hasOnboarded: false,
-            createdAt: { toDate: () => new Date('2025-10-20') }
-          },
-          {
-            student_id: 'STUDENT-005',
-            fullName: 'Emma Davis',
-            email: 'emma@email.com',
-            age: '25-34',
-            country: 'Kenya',
-            tier: 2,
-            leadScore: 85,
-            hasOnboarded: true,
-            createdAt: { toDate: () => new Date('2025-10-10') }
-          },
-          {
-            student_id: 'STUDENT-006',
-            fullName: 'John Doe',
-            email: 'john@email.com',
-            age: '18-24',
-            country: 'Nigeria',
-            tier: 3,
-            leadScore: 45,
-            hasOnboarded: true,
-            createdAt: { toDate: () => new Date('2025-09-25') }
-          }
-        ];
+        const [studentData, ticketsData] = await Promise.all([
+          getDocs(studentCollectionRef),
+          getDocs(ticketCollectionRef),
+        ]);
 
-        const mockTickets = [
-          {
-            id: 'C3G4149AkhhbYtcZfV3D',
-            advisory_session: 'CjNFZklco1puXPHavPFU',
-            escalation_reason: 'Human Handoff Requested',
-            priority: 'High',
-            status: 'Open',
-            student_id: 'MizsND2RlwhM6xWyXcvw3l8mRXn2'
-          },
-          {
-            id: 'TICKET-002',
-            advisory_session: 'SESSION-002',
-            escalation_reason: 'Payment Query',
-            priority: 'Medium',
-            status: 'Open',
-            student_id: 'kV4sSGNv31Mtkv0LR0uBqh6q11s1'
-          },
-          {
-            id: 'TICKET-003',
-            advisory_session: 'SESSION-003',
-            escalation_reason: 'Course Selection Help',
-            priority: 'Low',
-            status: 'Closed',
-            student_id: 'STUDENT-003'
-          },
-          {
-            id: 'TICKET-004',
-            advisory_session: 'SESSION-004',
-            escalation_reason: 'Technical Issue',
-            priority: 'High',
-            status: 'Open',
-            student_id: 'STUDENT-004'
-          },
-          {
-            id: 'TICKET-005',
-            advisory_session: 'SESSION-005',
-            escalation_reason: 'General Inquiry',
-            priority: 'Medium',
-            status: 'Closed',
-            student_id: 'STUDENT-005'
-          }
-        ];
+        const studentList = studentData.empty ? [] : studentData.docs.map(doc => doc.data());
+        const ticketList = ticketsData.empty ? [] : ticketsData.docs.map(doc => doc.data());
 
+        setStudents(studentList);
+        setTickets(ticketList);
+
+        console.log(students, tickets, studentData, ticketsData);
         const mockSessions = [
           {
             session_id: 'CjNFZklco1puXPHavPFU',
@@ -160,33 +47,32 @@ const DashyGee = () => {
           }
         ];
 
-        setStudents(mockStudents);
-        setTickets(mockTickets);
         setSessions(mockSessions);
 
         // Calculate analytics
-        const totalStudents = mockStudents.length;
-        const tier1Count = mockStudents.filter(s => s.tier === 1).length;
-        const tier2Count = mockStudents.filter(s => s.tier === 2).length;
-        const tier3Count = mockStudents.filter(s => s.tier === 3).length;
-        const onboardedCount = mockStudents.filter(s => s.hasOnboarded).length;
-        
-        const totalLeadScore = mockStudents.reduce((sum, s) => sum + (s.leadScore || 0), 0);
+        const totalStudents = studentList.length;
+        const tier1Count = studentList.filter(s => s.tier === 1).length;
+        const tier2Count = studentList.filter(s => s.tier === 2).length;
+        const tier3Count = studentList.filter(s => s.tier === 3).length;
+        const onboardedCount = studentList.filter(s => s.hasOnboarded).length;
+
+        const totalLeadScore = studentList.reduce((sum, s) => sum + (s.leadScore || 0), 0);
         const avgLeadScore = totalStudents > 0 ? Math.round(totalLeadScore / totalStudents) : 0;
 
         const oneWeekAgo = new Date();
         oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-        const newStudents = mockStudents.filter(s => {
+        const newStudents = studentList.filter(s => {
+          if (!s.createdAt) return false;
           const createdDate = s.createdAt.toDate ? s.createdAt.toDate() : new Date(s.createdAt);
           return createdDate >= oneWeekAgo;
         }).length;
 
-        const totalTickets = mockTickets.length;
-        const highPriority = mockTickets.filter(t => t.priority === 'High').length;
-        const mediumPriority = mockTickets.filter(t => t.priority === 'Medium').length;
-        const lowPriority = mockTickets.filter(t => t.priority === 'Low').length;
-        const openTickets = mockTickets.filter(t => t.status === 'Open').length;
-        const closedTickets = mockTickets.filter(t => t.status === 'Closed').length;
+        const totalTickets = ticketList.length;
+        const highPriority = ticketList.filter(t => t.priority === 'High').length;
+        const mediumPriority = ticketList.filter(t => t.priority === 'Medium').length;
+        const lowPriority = ticketList.filter(t => t.priority === 'Low').length;
+        const openTickets = ticketList.filter(t => t.status === 'Open').length;
+        const closedTickets = ticketList.filter(t => t.status === 'Closed').length;
 
         const escalatedSessions = mockSessions.filter(s => s.status === 'Escalated').length;
 
@@ -226,9 +112,16 @@ const DashyGee = () => {
 
   // Simple Pie Chart Component
   const PieChart = ({ data, colors, title }) => {
-    let cumulativePercent = 0;
+    const getCoordinatesForPercent = (percent) => {
+      const x = 50 + 50 * Math.cos(2 * Math.PI * percent - Math.PI / 2);
+      const y = 50 + 50 * Math.sin(2 * Math.PI * percent - Math.PI / 2);
+      return [x, y];
+    };
 
-    const createSlice = (percent, color, offset) => {
+    const createSlice = (percent, offset) => {
+      // Don't render slices with 0 or very small percentages
+      if (percent < 0.001) return null;
+      
       const [startX, startY] = getCoordinatesForPercent(offset);
       const [endX, endY] = getCoordinatesForPercent(offset + percent);
       const largeArcFlag = percent > 0.5 ? 1 : 0;
@@ -236,27 +129,42 @@ const DashyGee = () => {
       return `M 50 50 L ${startX} ${startY} A 50 50 0 ${largeArcFlag} 1 ${endX} ${endY} Z`;
     };
 
-    const getCoordinatesForPercent = (percent) => {
-      const x = 50 + 50 * Math.cos(2 * Math.PI * percent - Math.PI / 2);
-      const y = 50 + 50 * Math.sin(2 * Math.PI * percent - Math.PI / 2);
-      return [x, y];
-    };
+    // Filter out zero values and calculate total
+    const validData = data.filter(item => item.value > 0);
+    const total = validData.reduce((sum, item) => sum + item.value, 0);
+    
+    // If no valid data, show empty state
+    if (validData.length === 0 || total === 0) {
+      return (
+        <div className="bg-white rounded-lg border border-gray-200 p-6">
+          <h3 className="text-lg font-bold text-gray-900 mb-4">{title}</h3>
+          <div className="flex items-center justify-center h-64">
+            <p className="text-gray-400">No data available</p>
+          </div>
+        </div>
+      );
+    }
+
+    let cumulativePercent = 0;
 
     return (
       <div className="bg-white rounded-lg border border-gray-200 p-6">
         <h3 className="text-lg font-bold text-gray-900 mb-4">{title}</h3>
         <div className="flex items-center justify-center">
           <svg viewBox="0 0 100 100" className="w-64 h-64">
-            {data.map((item, index) => {
+            {validData.map((item, index) => {
               const percent = item.value / 100;
-              const slice = createSlice(percent, colors[index], cumulativePercent);
+              const slice = createSlice(percent, cumulativePercent);
+              const currentPercent = cumulativePercent;
               cumulativePercent += percent;
+              
+              if (!slice) return null;
               
               return (
                 <path
                   key={index}
                   d={slice}
-                  fill={colors[index]}
+                  fill={colors[data.indexOf(item)]}
                   stroke="white"
                   strokeWidth="2"
                 />
@@ -283,7 +191,6 @@ const DashyGee = () => {
       </div>
     );
   };
-
   // Bar Chart Component for Priority Tickets
   const BarChart = ({ data, colors, title }) => {
     const maxValue = Math.max(...data.map(d => d.value), 1);
@@ -344,12 +251,12 @@ const DashyGee = () => {
   const statusData = [
     { 
       label: 'Open Tickets', 
-      value: analytics.totalTickets > 0 ? ((analytics.openTickets / analytics.totalTickets) * 100).toFixed(1) : 0, 
+      value: parseFloat(analytics.totalTickets > 0 ? ((analytics.openTickets / analytics.totalTickets) * 100).toFixed(1) : 0), 
       count: analytics.openTickets 
     },
     { 
       label: 'Closed Tickets', 
-      value: analytics.totalTickets > 0 ? ((analytics.closedTickets / analytics.totalTickets) * 100).toFixed(1) : 0, 
+      value: parseFloat(analytics.totalTickets > 0 ? ((analytics.closedTickets / analytics.totalTickets) * 100).toFixed(1) : 0), 
       count: analytics.closedTickets 
     }
   ];

@@ -113,12 +113,12 @@ const Navbar = ({ onToggleSidebar, isSidebarOpen }) => {
 
             {/* Dropdown Menu */}
             {showDropdown && (
-              <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl overflow-hidden z-50">
+              <div className="absolute right-0 md:mt-0 mt-2 w-48 bg-white rounded-lg shadow-xl overflow-hidden z-50">
                 <div className="py-1">
                   <button
-                    className="w-full flex items-center space-x-2 px-4 py-3 text-gray-700 hover:bg-blue-50 transition-colors duration-150"
+                    className="w-full flex items-center space-x-2 px-4 py-3 text-gray-700transition-colors duration-150 md:hidden"
                   >
-                    <span className="font-medium md:hidden">{advisorName}</span>
+                    <span className="font-medium">{advisorName}</span>
                   </button>
                 </div>
                 <div className="py-1">
