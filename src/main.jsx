@@ -26,10 +26,8 @@ const router = createBrowserRouter([
     path: '/students',
     element: (
       <PrivateRoute>
-      <div className="h-screen flex flex-col">
-        <div className='sticky top-0 z-30'>
+      <div className="min-h-screen flex flex-col">
           <Navbar/>
-        </div>
           <Students/>
       </div>
       </PrivateRoute>
@@ -39,10 +37,8 @@ const router = createBrowserRouter([
     path: '/dashboard',
     element: (
       <PrivateRoute>
-        <div className="h-screen flex flex-col">
-          <div className='sticky top-0 z-30'>
+        <div className="min-h-screen flex flex-col">
             <Navbar/>
-          </div>
             <Dashboard/>
         </div>
       </PrivateRoute>
@@ -52,10 +48,8 @@ const router = createBrowserRouter([
     path: '/sessions',
     element: (
       <PrivateRoute>
-        <div className="h-screen flex flex-col">
-          <div className='sticky top-0 z-30'>
+        <div className="min-h-screen flex flex-col">
             <Navbar/>
-          </div>
             <AdvisorySessions/>
         </div>
       </PrivateRoute>

@@ -104,7 +104,7 @@ const UADLayout = () => {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex flex-col">
+      <div className="min-h-screen flex flex-col">
         <div className='sticky top-0 z-30'>
           <Navbar isSidebarOpen={isSideBarOpen}
             onToggleSidebar={() => setIsSideBarOpen(!isSideBarOpen)} />
